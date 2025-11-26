@@ -82502,7 +82502,7 @@ s.toString
 return B.d.aY(r,s)},
 $S:522}
 A.KR.prototype={
-L(a){return new A.yT(B.LK,"Meet Portfolio",A.tX(null,A.avH(B.j,B.a7,null,B.a8,B.ck,B.a8,B.j),A.aIM(A.a5(a).ok).afP(B.mm,B.mm),!0),!1,null)}}
+L(a){return new A.yT(B.LK,"Meet Vaghela",A.tX(null,A.avH(B.j,B.a7,null,B.a8,B.ck,B.a8,B.j),A.aIM(A.a5(a).ok).afP(B.mm,B.mm),!0),!1,null)}}
 A.zE.prototype={
 af(){var s=null,r=t.A
 return new A.DV(A.M7(),A.am(["home",new A.bp(s,r),"about",new A.bp(s,r),"skills",new A.bp(s,r),"services",new A.bp(s,r),"projects",new A.bp(s,r),"contact",new A.bp(s,r)],t.N,t.yi))}}

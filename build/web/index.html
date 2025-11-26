@@ -1,41 +1,595 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="/">
-
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Meet's Portfolio - Full Stack Developer & Designer">
+  <meta name="theme-color" content="#133C55">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="meet_portfolio">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>meet_portfolio</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <title>Meet's Portfolio</title>
   <link rel="manifest" href="manifest.json">
-  
-  <!-- Enable loading of external images (Google Play Store) -->
-  <meta name="referrer" content="no-referrer">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, #FFFFFF 0%, #EEF6FF 100%);
+      font-family: 'Inter', sans-serif;
+    }
+
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #FFFFFF 0%, #EEF6FF 50%, #E0F2FE 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease-out;
+      overflow: hidden;
+    }
+
+    #loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: linear-gradient(135deg, #2563EB, #0EA5E9);
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: float 15s infinite ease-in-out;
+    }
+
+    .particle:nth-child(1) {
+      left: 10%;
+      top: 20%;
+      animation-delay: 0s;
+      animation-duration: 12s;
+    }
+
+    .particle:nth-child(2) {
+      left: 20%;
+      top: 80%;
+      animation-delay: 2s;
+      animation-duration: 14s;
+    }
+
+    .particle:nth-child(3) {
+      left: 30%;
+      top: 40%;
+      animation-delay: 4s;
+      animation-duration: 16s;
+    }
+
+    .particle:nth-child(4) {
+      left: 40%;
+      top: 60%;
+      animation-delay: 1s;
+      animation-duration: 13s;
+    }
+
+    .particle:nth-child(5) {
+      left: 50%;
+      top: 30%;
+      animation-delay: 3s;
+      animation-duration: 15s;
+    }
+
+    .particle:nth-child(6) {
+      left: 60%;
+      top: 70%;
+      animation-delay: 5s;
+      animation-duration: 11s;
+    }
+
+    .particle:nth-child(7) {
+      left: 70%;
+      top: 50%;
+      animation-delay: 2.5s;
+      animation-duration: 14s;
+    }
+
+    .particle:nth-child(8) {
+      left: 80%;
+      top: 25%;
+      animation-delay: 4.5s;
+      animation-duration: 12s;
+    }
+
+    .particle:nth-child(9) {
+      left: 90%;
+      top: 75%;
+      animation-delay: 1.5s;
+      animation-duration: 16s;
+    }
+
+    .particle:nth-child(10) {
+      left: 15%;
+      top: 55%;
+      animation-delay: 3.5s;
+      animation-duration: 13s;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 0.4;
+      }
+
+      25% {
+        transform: translateY(-30px) translateX(20px) scale(1.2);
+        opacity: 0.6;
+      }
+
+      50% {
+        transform: translateY(-60px) translateX(-20px) scale(0.8);
+        opacity: 0.3;
+      }
+
+      75% {
+        transform: translateY(-30px) translateX(30px) scale(1.1);
+        opacity: 0.5;
+      }
+    }
+
+    .loading-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .logo-container {
+      position: relative;
+      margin-bottom: 48px;
+    }
+
+    .logo-circle {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #133C55 0%, #386FA4 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 40px rgba(19, 60, 85, 0.2), 0 0 0 0 rgba(19, 60, 85, 0.4);
+      animation: pulse 2s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-circle::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: shine 3s infinite;
+    }
+
+    .logo-text {
+      font-size: 48px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -1px;
+      z-index: 1;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 10px 40px rgba(19, 60, 85, 0.2), 0 0 0 0 rgba(19, 60, 85, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 10px 60px rgba(19, 60, 85, 0.3), 0 0 0 20px rgba(19, 60, 85, 0);
+      }
+    }
+
+    @keyframes shine {
+      0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+      }
+
+      100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+      }
+    }
+
+    .brand-text {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .brand-text h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #133C55;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-text p {
+      font-size: 16px;
+      font-weight: 500;
+      color: #386FA4;
+      margin: 0;
+      letter-spacing: 0.5px;
+    }
+
+    .network-loader {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #network-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .loading-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: #133C55;
+      animation: pulse-text 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-text {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    .wave-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 150px;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(19, 60, 85, 0.05) 0%, rgba(56, 111, 164, 0.08) 50%, rgba(19, 60, 85, 0.05) 100%);
+      animation: wave 8s linear infinite;
+    }
+
+    .wave:nth-child(2) {
+      animation-duration: 12s;
+      opacity: 0.5;
+      animation-direction: reverse;
+    }
+
+    @keyframes wave {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .logo-circle {
+        width: 100px;
+        height: 100px;
+      }
+
+      .logo-text {
+        font-size: 40px;
+      }
+
+      .brand-text h1 {
+        font-size: 28px;
+      }
+
+      .brand-text p {
+        font-size: 14px;
+      }
+
+      .network-loader {
+        width: 200px;
+        height: 200px;
+      }
+
+      .loading-text {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-circle {
+        width: 80px;
+        height: 80px;
+      }
+
+      .logo-text {
+        font-size: 32px;
+      }
+
+      .brand-text h1 {
+        font-size: 24px;
+      }
+
+      .brand-text p {
+        font-size: 13px;
+      }
+
+      .network-loader {
+        width: 180px;
+        height: 180px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <div id="loading-screen">
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+    <div class="wave-container">
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
+    <div class="loading-content">
+      <div class="logo-container">
+        <div class="logo-circle">
+          <div class="logo-text">M</div>
+        </div>
+      </div>
+      <div class="brand-text">
+        <h1>Meet Vaghela</h1>
+        <p>Full Stack Developer</p>
+      </div>
+      <div class="network-loader">
+        <canvas id="network-canvas"></canvas>
+      </div>
+      <div class="loading-text">Loading Portfolio...</div>
+    </div>
+  </div>
+  <script>
+    // 3D Network Sphere
+    (function () {
+      const canvas = document.getElementById('network-canvas');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = 250 * dpr;
+      canvas.height = 250 * dpr;
+      canvas.style.width = '250px';
+      canvas.style.height = '250px';
+      ctx.scale(dpr, dpr);
+
+      const centerX = 125;
+      const centerY = 125;
+      const radius = 80;
+      const nodes = [];
+      const numNodes = 25;
+
+      // Create nodes on sphere surface using Fibonacci sphere algorithm
+      for (let i = 0; i < numNodes; i++) {
+        const theta = Math.acos(-1 + (2 * i) / numNodes);
+        const phi = Math.sqrt(numNodes * Math.PI) * theta;
+
+        nodes.push({
+          x: radius * Math.sin(theta) * Math.cos(phi),
+          y: radius * Math.sin(theta) * Math.sin(phi),
+          z: radius * Math.cos(theta),
+          originalX: radius * Math.sin(theta) * Math.cos(phi),
+          originalY: radius * Math.sin(theta) * Math.sin(phi),
+          originalZ: radius * Math.cos(theta)
+        });
+      }
+
+      let angleX = 0;
+      let angleY = 0;
+
+      function rotateX(node, angle) {
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        const y = node.y * cos - node.z * sin;
+        const z = node.y * sin + node.z * cos;
+        return { x: node.x, y, z };
+      }
+
+      function rotateY(node, angle) {
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        const x = node.x * cos + node.z * sin;
+        const z = -node.x * sin + node.z * cos;
+        return { x, y: node.y, z };
+      }
+
+      function project(node) {
+        const perspective = 400;
+        const scale = perspective / (perspective + node.z);
+        return {
+          x: node.x * scale + centerX,
+          y: node.y * scale + centerY,
+          scale: scale
+        };
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, 250, 250);
+
+        // Rotate nodes
+        const rotatedNodes = nodes.map(node => {
+          let rotated = { x: node.originalX, y: node.originalY, z: node.originalZ };
+          rotated = rotateY(rotated, angleY);
+          rotated = rotateX(rotated, angleX);
+          return rotated;
+        });
+
+        // Draw connections
+        ctx.strokeStyle = 'rgba(19, 60, 85, 0.2)';
+        ctx.lineWidth = 1;
+
+        for (let i = 0; i < rotatedNodes.length; i++) {
+          for (let j = i + 1; j < rotatedNodes.length; j++) {
+            const dx = rotatedNodes[i].x - rotatedNodes[j].x;
+            const dy = rotatedNodes[i].y - rotatedNodes[j].y;
+            const dz = rotatedNodes[i].z - rotatedNodes[j].z;
+            const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+            if (distance < radius * 1.2) {
+              const proj1 = project(rotatedNodes[i]);
+              const proj2 = project(rotatedNodes[j]);
+
+              const opacity = Math.max(0.1, 1 - distance / (radius * 1.2));
+              ctx.strokeStyle = `rgba(37, 99, 235, ${opacity * 0.3})`;
+
+              ctx.beginPath();
+              ctx.moveTo(proj1.x, proj1.y);
+              ctx.lineTo(proj2.x, proj2.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Draw nodes - SMALLER and LIGHTER
+        rotatedNodes.forEach(node => {
+          const proj = project(node);
+          const size = 2 + proj.scale * 1; // Smaller: was 3 + proj.scale * 2
+          const opacity = Math.max(0.4, proj.scale);
+
+          // Lighter gradient colors
+          const gradient = ctx.createRadialGradient(proj.x, proj.y, 0, proj.x, proj.y, size);
+          if (node.z > 0) {
+            // Front nodes - lighter blue (#60A5FA)
+            gradient.addColorStop(0, `rgba(96, 165, 250, ${opacity})`);
+            gradient.addColorStop(1, `rgba(147, 197, 253, ${opacity * 0.6})`);
+          } else {
+            // Back nodes - very light blue (#93C5FD)
+            gradient.addColorStop(0, `rgba(147, 197, 253, ${opacity})`);
+            gradient.addColorStop(1, `rgba(191, 219, 254, ${opacity * 0.6})`);
+          }
+
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(proj.x, proj.y, size, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Lighter glow effect
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = `rgba(96, 165, 250, ${opacity * 0.3})`;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        });
+
+        angleY += 0.005;
+        angleX += 0.003;
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+
+    // Hide loading screen when Flutter is ready
+    window.addEventListener('flutter-first-frame', function () {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        loadingScreen.classList.add('hidden');
+        setTimeout(function () {
+          loadingScreen.remove();
+        }, 600);
+      }
+    });
+
+    setTimeout(function () {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+        loadingScreen.classList.add('hidden');
+        setTimeout(function () {
+          loadingScreen.remove();
+        }, 600);
+      }
+    }, 5000);
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
+
 </html>
